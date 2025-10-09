@@ -1,5 +1,5 @@
 // Minimal local Task shim to allow offline build without external crate
-#[derive(Copy, Drop, Serde)]
+#[derive(Drop, Serde)]
 pub struct Task {
     identifier: felt252,
     total: u64,

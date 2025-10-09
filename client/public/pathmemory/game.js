@@ -116,6 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
         levelCompleteSound.currentTime = 0;
         levelCompleteSound.play();
 
+        // Send win result to parent (React app)
+        window.parent.postMessage({
+            type: 'PM_RESULT',
+            level: currentLevel,
+            score: score,
+            livesRemaining: lives,
+            won: true
+        }, '*');
+
         // const applauseSound = document.getElementById('applauseSound');
         setTimeout(() => {
             applauseSound.currentTime = 0;
@@ -136,6 +145,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gameOverSound.currentTime = 0;
         gameOverSound.play();
+
+        // Send loss result to parent (React app)
+        window.parent.postMessage({
+            type: 'PM_RESULT',
+            level: currentLevel,
+            score: score,
+            livesRemaining: lives,
+            won: false
+        }, '*');
     }
 
     function returnToMenu() {

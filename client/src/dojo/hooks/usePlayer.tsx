@@ -24,6 +24,11 @@ const PLAYER_QUERY = `
                     health
                     coins
                     creation_day
+                    games_played
+                    wins
+                    losses
+                    best_level
+                    last_score
                 }
             }
             totalCount
@@ -78,7 +83,12 @@ const fetchPlayerData = async (playerOwner: string): Promise<Player | null> => {
       experience: hexToNumber(rawPlayerData.experience),
       health: hexToNumber(rawPlayerData.health),
       coins: hexToNumber(rawPlayerData.coins),
-      creation_day: hexToNumber(rawPlayerData.creation_day)
+      creation_day: hexToNumber(rawPlayerData.creation_day),
+      games_played: hexToNumber(rawPlayerData.games_played ?? 0),
+      wins: hexToNumber(rawPlayerData.wins ?? 0),
+      losses: hexToNumber(rawPlayerData.losses ?? 0),
+      best_level: hexToNumber(rawPlayerData.best_level ?? 0),
+      last_score: Number(rawPlayerData.last_score ?? 0),
     };
 
     console.log("✅ Player data after conversion:", playerData);

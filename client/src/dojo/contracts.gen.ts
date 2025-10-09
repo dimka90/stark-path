@@ -3,47 +3,6 @@ import { Account, AccountInterface } from "starknet";
 
 export function setupWorld(provider: DojoProvider) {
 
-	const build_game_mine_calldata = (): DojoCall => {
-		return {
-			contractName: "game",
-			entrypoint: "mine",
-			calldata: [],
-		};
-	};
-
-	const game_mine = async (snAccount: Account | AccountInterface) => {
-		try {
-			return await provider.execute(
-				snAccount as any,
-				build_game_mine_calldata(),
-				"full_starter_react",
-			);
-		} catch (error) {
-			console.error(error);
-			throw error;
-		}
-	};
-
-	const build_game_rest_calldata = (): DojoCall => {
-		return {
-			contractName: "game",
-			entrypoint: "rest",
-			calldata: [],
-		};
-	};
-
-	const game_rest = async (snAccount: Account | AccountInterface) => {
-		try {
-			return await provider.execute(
-				snAccount as any,
-				build_game_rest_calldata(),
-				"full_starter_react",
-			);
-		} catch (error) {
-			console.error(error);
-			throw error;
-		}
-	};
 
 	const build_game_spawnPlayer_calldata = (): DojoCall => {
 		return {
@@ -66,19 +25,32 @@ export function setupWorld(provider: DojoProvider) {
 		}
 	};
 
-	const build_game_train_calldata = (): DojoCall => {
+
+	// record_result(level: u8, score: u64, lives_remaining: u8, won: bool)
+	const build_game_recordResult_calldata = (
+		level: number,
+		score: bigint,
+		livesRemaining: number,
+		won: boolean
+	): DojoCall => {
 		return {
 			contractName: "game",
-			entrypoint: "train",
-			calldata: [],
+			entrypoint: "record_result",
+			calldata: [level, score, livesRemaining, won ? 1 : 0],
 		};
 	};
 
-	const game_train = async (snAccount: Account | AccountInterface) => {
+	const game_recordResult = async (
+		snAccount: Account | AccountInterface,
+		level: number,
+		score: bigint,
+		livesRemaining: number,
+		won: boolean
+	) => {
 		try {
 			return await provider.execute(
 				snAccount as any,
-				build_game_train_calldata(),
+				build_game_recordResult_calldata(level, score, livesRemaining, won),
 				"full_starter_react",
 			);
 		} catch (error) {
@@ -91,14 +63,10 @@ export function setupWorld(provider: DojoProvider) {
 
 	return {
 		game: {
-			mine: game_mine,
-			buildMineCalldata: build_game_mine_calldata,
-			rest: game_rest,
-			buildRestCalldata: build_game_rest_calldata,
 			spawnPlayer: game_spawnPlayer,
 			buildSpawnPlayerCalldata: build_game_spawnPlayer_calldata,
-			train: game_train,
-			buildTrainCalldata: build_game_train_calldata,
+			recordResult: game_recordResult,
+			buildRecordResultCalldata: build_game_recordResult_calldata,
 		},
 	};
 }

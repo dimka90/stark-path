@@ -11,41 +11,40 @@ export function PlayerStats() {
 
   const isConnected = status === "connected";
 
-  // Use real player data or default values
+  // Memory game stats only
   const stats = [
     {
-      label: "Experience",
-      value: player?.experience || 0,
+      label: "Games Played",
+      value: player?.games_played || 0,
       color: "text-blue-400",
       icon: Zap
     },
     {
-      label: "Health",
-      value: player?.health || 100,
-      color: getHealthColor(player?.health || 100),
-      icon: Heart,
-      max: 100
+      label: "Wins",
+      value: player?.wins || 0,
+      color: "text-green-400",
+      icon: Heart
     },
     {
-      label: "Coins",
-      value: player?.coins || 0,
+      label: "Best Level",
+      value: player?.best_level || 0,
       color: "text-yellow-400",
       icon: Coins
     },
   ];
 
-  // Function to get health color based on value
-  function getHealthColor(health: number): string {
-    if (health >= 80) return "text-green-400";
-    if (health >= 50) return "text-yellow-400";
-    if (health >= 20) return "text-orange-400";
-    return "text-red-400";
-  }
+  // Extra on-chain game stats if available
+  const extra = player ? [
+    { label: 'Games Played', value: player.games_played ?? 0 },
+    { label: 'Wins', value: player.wins ?? 0 },
+    { label: 'Losses', value: player.losses ?? 0 },
+    { label: 'Best Level', value: player.best_level ?? 0 },
+  ] : [];
 
-  // Calculate experience for level up (example: every 100 exp = 1 level)
-  const currentLevel = Math.floor((player?.experience || 0) / 100) + 1;
-  const expInCurrentLevel = (player?.experience || 0) % 100;
-  const expNeededForNextLevel = 100;
+  // Calculate win rate
+  const winRate = player && (player.games_played ?? 0) > 0 
+    ? Math.round(((player.wins ?? 0) / (player.games_played ?? 1)) * 100) 
+    : 0;
 
   if (isLoading) {
     return (
@@ -83,7 +82,6 @@ export function PlayerStats() {
               <div className="flex items-center gap-2">
                 <span className={`font-bold text-lg ${stat.color}`}>
                   {stat.value}
-                  {stat.max && `/${stat.max}`}
                 </span>
                 {/* Low health indicator */}
                 {stat.label === "Health" && stat.value <= 20 && (
@@ -94,35 +92,30 @@ export function PlayerStats() {
           );
         })}
 
-        {/* Experience bar */}
-        <div className="space-y-2">
-          <div className="flex justify-between items-center">
-            <span className="text-slate-300">Level {currentLevel}</span>
-            <span className="text-blue-400 font-bold">
-              {expInCurrentLevel} / {expNeededForNextLevel}
-            </span>
+        {/* On-chain memory game stats */}
+        {extra.length > 0 && (
+          <div className="grid grid-cols-2 gap-3">
+            {extra.map((e) => (
+              <div key={e.label} className="flex items-center justify-between text-slate-300">
+                <span>{e.label}</span>
+                <span className="font-semibold text-white/90">{e.value}</span>
+              </div>
+            ))}
           </div>
-          <Progress
-            value={(expInCurrentLevel / expNeededForNextLevel) * 100}
-            className="h-2 bg-slate-700"
-          />
-        </div>
+        )}
 
-        {/* Health bar */}
-        {player && (
+        {/* Win Rate */}
+        {player && (player.games_played ?? 0) > 0 && (
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-slate-300">Health Status</span>
-              <span className={`font-bold text-sm ${getHealthColor(player.health)}`}>
-                {player.health >= 80 ? "Excellent" :
-                  player.health >= 50 ? "Good" :
-                    player.health >= 20 ? "Poor" : "Critical"}
+              <span className="text-slate-300">Win Rate</span>
+              <span className="text-green-400 font-bold">
+                {winRate}%
               </span>
             </div>
             <Progress
-              value={player.health}
-              className={`h-2 ${player.health >= 50 ? "bg-slate-700" : "bg-red-900/30"
-                }`}
+              value={winRate}
+              className="h-2 bg-slate-700"
             />
           </div>
         )}
@@ -150,17 +143,7 @@ export function PlayerStats() {
           <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
             <div className="flex items-center gap-2 text-green-400 text-sm">
               <Heart className="w-4 h-4" />
-              <span>Player ready! Use actions to train and progress.</span>
-            </div>
-          </div>
-        )}
-
-        {/* Low health warning */}
-        {player && player.health <= 20 && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
-            <div className="flex items-center gap-2 text-red-400 text-sm">
-              <AlertTriangle className="w-4 h-4" />
-              <span>⚠️ Low health! Rest to recover before mining.</span>
+              <span>Player ready! Play the memory game to record results on-chain.</span>
             </div>
           </div>
         )}

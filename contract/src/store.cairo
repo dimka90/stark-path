@@ -8,9 +8,6 @@ use dojo::model::ModelStorage;
 // Models imports
 use full_starter_react::models::player::{Player, PlayerTrait};
 
-// Helpers import
-use full_starter_react::helpers::timestamp::Timestamp;
-
 // Store struct
 #[derive(Copy, Drop)]
 pub struct Store {
@@ -29,6 +26,10 @@ pub impl StoreImpl of StoreTrait {
         self.world.read_model(player_address)
     }
 
+    fn get_caller_address(self: Store) -> ContractAddress {
+        get_caller_address()
+    }
+
     fn read_player(self: Store) -> Player {
         let player_address = get_caller_address();
         self.world.read_model(player_address)
@@ -42,52 +43,18 @@ pub impl StoreImpl of StoreTrait {
     // --------- New entities ---------
     fn create_player(mut self: Store) {
         let caller = get_caller_address();
-        let current_timestamp = get_block_timestamp();
 
-        // Create new player with starting stats
-        let new_player = PlayerTrait::new(
-            caller,
-            0,   // experience
-            100, // health
-            0,   // coins
-            Timestamp::unix_timestamp_to_day(current_timestamp), // creation_day
-        );
+        // Create new minimal player
+        let new_player = PlayerTrait::new(caller);
 
         self.world.write_model(@new_player);
     }
 
-    // --------- Game Actions ---------
-    fn train_player(mut self: Store) {
-        let mut player = self.read_player();
-        
-        // Add experience from training
-        player.add_experience(10);
-        
-        self.world.write_model(@player);
-    }
 
-    fn mine_coins(mut self: Store) {
+    // --------- Memory Game Result Tracking ---------
+    fn record_result(mut self: Store, level: u8, score: u64, lives_remaining: u8, won: bool) {
         let mut player = self.read_player();
-        
-        // Add coins and reduce health from mining
-        player.add_coins(5);
-        
-        // Reduce health (ensure it doesn't go below 0)
-        if player.health >= 5 {
-            player.health -= 5;
-        } else {
-            player.health = 0;
-        }
-        
-        self.world.write_model(@player);
-    }
-
-    fn rest_player(mut self: Store) {
-        let mut player = self.read_player();
-        
-        // Add health from resting
-        player.add_health(20);
-        
+        player.record_result(level, score, lives_remaining, won);
         self.world.write_model(@player);
     }
     

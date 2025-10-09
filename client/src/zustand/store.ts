@@ -8,6 +8,12 @@ export interface Player {
   health: number;
   coins: number;
   creation_day: number;
+  // On-chain memory game stats
+  games_played?: number;
+  wins?: number;
+  losses?: number;
+  best_level?: number;
+  last_score?: number;
 }
 
 // Application state

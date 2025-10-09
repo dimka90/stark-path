@@ -1,10 +1,6 @@
 pub mod store;
 pub mod constants;
 
-pub mod achievements {
-    pub mod achievement;
-}
-
 pub mod helpers {
     pub mod timestamp;
 }
