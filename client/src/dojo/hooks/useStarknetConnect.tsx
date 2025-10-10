@@ -10,20 +10,38 @@ export function useStarknetConnect() {
   const [isConnecting, setIsConnecting] = useState(false);
 
   const handleConnect = useCallback(async () => {
-    const connector = connectors[0]; // Cartridge connector
-    if (!connector) {
-      console.error("No connector found");
+    if (!connectors || connectors.length === 0) {
+      console.error("No connectors found");
       return;
+    }
+    
+    // Try to find a working connector
+    let connector = connectors[0]; // Default to first connector
+    
+    // For local development, prefer injected connectors
+    const injectedConnector = connectors.find(c => c.id === "braavos" || c.id === "argentX");
+    if (injectedConnector) {
+      connector = injectedConnector;
     }
     
     try {
       setIsConnecting(true);
       setHasTriedConnect(true);
-      console.log("🔗 Attempting to connect controller...");
+      console.log("🔗 Attempting to connect with connector:", connector.id);
       await connect({ connector });
-      console.log("✅ controller connected successfully");
+      console.log("✅ Connected successfully with:", connector.id);
     } catch (error) {
       console.error("❌ Connection failed:", error);
+      // Try fallback connector if available
+      if (connectors.length > 1 && connector !== connectors[1]) {
+        try {
+          console.log("🔄 Trying fallback connector:", connectors[1].id);
+          await connect({ connector: connectors[1] });
+          console.log("✅ Connected with fallback connector");
+        } catch (fallbackError) {
+          console.error("❌ Fallback connection also failed:", fallbackError);
+        }
+      }
     } finally {
       setIsConnecting(false);
     }

@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Gamepad2, Loader2 } from "lucide-react";
+import { Gamepad2, Loader2, Play } from "lucide-react";
 import { useSpawnPlayer } from "../dojo/hooks/useSpawnPlayer";
 import useAppStore from "../zustand/store";
 
@@ -16,6 +16,14 @@ export function GameActions() {
       onClick: initializePlayer,
       color: "from-purple-500 to-purple-600",
       canExecute: isConnected && !player && !isInitializing,
+    },
+    {
+      icon: Play,
+      label: "Play Memory Game",
+      description: "Play StarkPath Memory Game",
+      onClick: () => window.open('/pathmemory/index.html', '_blank'),
+      color: "from-blue-500 to-blue-600",
+      canExecute: true,
     },
   ];
 

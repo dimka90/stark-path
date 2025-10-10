@@ -8,17 +8,24 @@ import {
 import cartridgeConnector from "../config/cartridgeConnector";
 
 export default function StarknetProvider({ children }: PropsWithChildren) {
-    const { VITE_PUBLIC_DEPLOY_TYPE } = import.meta.env;
+    const { VITE_PUBLIC_DEPLOY_TYPE, VITE_PUBLIC_NODE_URL } = import.meta.env;
 
     // Get RPC URL based on environment
     const getRpcUrl = () => {
+        // If we have a local node URL, use it (for Katana)
+        if (VITE_PUBLIC_NODE_URL) {
+            return VITE_PUBLIC_NODE_URL;
+        }
+        
         switch (VITE_PUBLIC_DEPLOY_TYPE) {
             case "mainnet":
                 return "https://api.cartridge.gg/x/starknet/mainnet";
             case "sepolia":
                 return "https://api.cartridge.gg/x/starknet/sepolia";
+            case "localhost":
+                return "http://localhost:5050"; // Katana default
             default:
-                return "https://api.cartridge.gg/x/starknet/sepolia"; 
+                return "http://localhost:5050"; // Default to Katana for local development
         }
     };
 
@@ -32,11 +39,19 @@ export default function StarknetProvider({ children }: PropsWithChildren) {
         ? [mainnet] 
         : [sepolia];
 
+    // Choose connectors based on environment
+    const getConnectors = () => {
+        if (VITE_PUBLIC_DEPLOY_TYPE === "localhost" || VITE_PUBLIC_NODE_URL) {
+            return [cartridgeConnector];
+        }
+        return [cartridgeConnector];
+    };
+
     return (
         <StarknetConfig
             autoConnect
             chains={chains}
-            connectors={[cartridgeConnector]}
+            connectors={getConnectors()}
             explorer={starkscan}
             provider={provider}
         >

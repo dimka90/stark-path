@@ -43,14 +43,14 @@ export function Header() {
           leading-normal
         "
       >
-        Dojo Game Starter
+        StarkPath
       </h1>
       <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto px-4">
-        Complete onchain gaming template for{" "}
+        On-chain Memory Game on{" "}
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-blue-400 font-semibold">
           Starknet
         </span>{" "}
-        ecosystem
+        with Dojo
       </p>
     </div>
   );
