@@ -11,7 +11,7 @@ sierra-replace-ids = true
 sepolia = "sozo --profile sepolia clean && sozo --profile sepolia build && sozo --profile sepolia migrate --account-address $DEPLOYER_ACCOUNT_ADDRESS --private-key $DEPLOYER_PRIVATE_KEY --fee strk"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.4.2" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.6.2" }
 
 [[target.starknet-contract]]
 build-external-contracts = [
@@ -20,6 +20,6 @@ build-external-contracts = [
 
 [dev-dependencies]
 cairo_test = "2.9.4"
-dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.4.2" }
+dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.6.2" }
 
 [profile.sepolia]
