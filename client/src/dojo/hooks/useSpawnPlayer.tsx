@@ -5,7 +5,7 @@ import { Account } from "starknet";
 import { useDojoSDK } from "@dojoengine/sdk/react";
 import { useStarknetConnect } from "./useStarknetConnect";
 import { usePlayer } from "./usePlayer";
-import useAppStore from "../../zustand/store";
+import useAppStore, { Player } from "../../zustand/store";
 
 // Types
 interface InitializeState {
@@ -30,7 +30,7 @@ export const useSpawnPlayer = () => {
   const { account } = useAccount();
   const { status } = useStarknetConnect();
   const { player, isLoading: playerLoading, refetch: refetchPlayer } = usePlayer();
-  const { setLoading } = useAppStore();
+  const { setLoading, setPlayer } = useAppStore();
 
   // Local state
   const [initState, setInitState] = useState<InitializeState>({
@@ -85,13 +85,9 @@ export const useSpawnPlayer = () => {
 
       console.log("🎮 Starting player initialization...");
 
-      // Refetch player data
-      console.log("🔄 Fetching latest player data...");
-      await refetchPlayer();
-
-      // Wait a bit to ensure data is loaded
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
+      // For Sepolia, skip GraphQL fetch and check store directly
+      console.log("⚠️ Skipping GraphQL fetch for Sepolia - checking store directly");
+      
       // Direct check from the store
       const storePlayer = useAppStore.getState().player;
 
@@ -164,9 +160,26 @@ export const useSpawnPlayer = () => {
           console.log("⏳ Waiting for transaction to be processed...");
           await new Promise(resolve => setTimeout(resolve, 3500));
 
-          // Refetch player data
-          console.log("🔄 Refetching player data after spawn...");
-          await refetchPlayer();
+          // Create a new player object and set it in the store
+          // Since GraphQL is disabled for Sepolia, we create a default player
+          const newPlayer: Player = {
+            owner: account.address,
+            experience: 0,
+            health: 100,
+            coins: 0,
+            creation_day: Math.floor(Date.now() / (1000 * 60 * 60 * 24)), // Current day
+            games_played: 0,
+            wins: 0,
+            losses: 0,
+            best_level: 0,
+            last_score: 0
+          };
+
+          console.log("💾 Setting new player in store:", newPlayer);
+          setPlayer(newPlayer);
+
+          // Skip refetch for Sepolia since GraphQL is disabled
+          console.log("⚠️ Skipping refetch for Sepolia - player already set in store");
 
           setInitState(prev => ({
             ...prev,

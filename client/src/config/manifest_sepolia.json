@@ -1,8 +1,8 @@
 {
   "world": {
-    "class_hash": "0x7c9469d45a9cdbab775035afb48e1fa73fb35ab059fcb9dfb0a301aa973e783",
-    "address": "0x5a15193daf70b6dfcbf7260c7323791e7a5fd3b90ef95150fe810d98199ca70",
-    "seed": "full_starter_react1",
+    "class_hash": "0x13d92333361bb7049c1232c0a5404e2c19082ededc3a73d75cb33fa952adec7",
+    "address": "0xda7393988f157d52536b0fd6bb27d820be6aff7218f0ddd4d73f885c671bd3",
+    "seed": "seed123",
     "name": "Full-Starter-React",
     "entrypoints": [
       "uuid",
@@ -693,6 +693,22 @@
           },
           {
             "type": "function",
+            "name": "owners_count",
+            "inputs": [
+              {
+                "name": "resource",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u64"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
             "name": "is_writer",
             "inputs": [
               {
@@ -1312,8 +1328,8 @@
   },
   "contracts": [
     {
-      "address": "0x31b119987eeb1a6c0d13b029ad9a3c64856369dcdfd6e69d9af4c9fba6f507f",
-      "class_hash": "0x67b9e060cb1caebf64f45a92c40028de885535c4ced3178656c4e5c3c171286",
+      "address": "0x5789b46b1d4e22b8aea0be766cc9fa7c2e1c6337b741f29c44b462494e4e8",
+      "class_hash": "0x3fbfcc3254328fc86dd0e966f5a2d488c52405bb96ba3beac541f9bd40f5455",
       "abi": [
         {
           "type": "impl",
@@ -1378,6 +1394,20 @@
           "interface_name": "full_starter_react::systems::game::IGame"
         },
         {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
           "type": "interface",
           "name": "full_starter_react::systems::game::IGame",
           "items": [
@@ -1390,22 +1420,25 @@
             },
             {
               "type": "function",
-              "name": "train",
-              "inputs": [],
-              "outputs": [],
-              "state_mutability": "external"
-            },
-            {
-              "type": "function",
-              "name": "mine",
-              "inputs": [],
-              "outputs": [],
-              "state_mutability": "external"
-            },
-            {
-              "type": "function",
-              "name": "rest",
-              "inputs": [],
+              "name": "record_result",
+              "inputs": [
+                {
+                  "name": "level",
+                  "type": "core::integer::u8"
+                },
+                {
+                  "name": "score",
+                  "type": "core::integer::u64"
+                },
+                {
+                  "name": "lives_remaining",
+                  "type": "core::integer::u8"
+                },
+                {
+                  "name": "won",
+                  "type": "core::bool"
+                }
+              ],
               "outputs": [],
               "state_mutability": "external"
             }
@@ -1503,9 +1536,47 @@
         },
         {
           "type": "event",
-          "name": "achievement::components::achievable::AchievableComponent::Event",
-          "kind": "enum",
-          "variants": []
+          "name": "full_starter_react::systems::game::game::PlayerSpawnedPayload",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "owner",
+              "type": "core::starknet::contract_address::ContractAddress",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "full_starter_react::systems::game::game::GameResultRecordedPayload",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "owner",
+              "type": "core::starknet::contract_address::ContractAddress",
+              "kind": "data"
+            },
+            {
+              "name": "level",
+              "type": "core::integer::u8",
+              "kind": "data"
+            },
+            {
+              "name": "score",
+              "type": "core::integer::u64",
+              "kind": "data"
+            },
+            {
+              "name": "lives_remaining",
+              "type": "core::integer::u8",
+              "kind": "data"
+            },
+            {
+              "name": "won",
+              "type": "core::bool",
+              "kind": "data"
+            }
+          ]
         },
         {
           "type": "event",
@@ -1523,9 +1594,14 @@
               "kind": "nested"
             },
             {
-              "name": "AchievableEvent",
-              "type": "achievement::components::achievable::AchievableComponent::Event",
-              "kind": "flat"
+              "name": "PlayerSpawned",
+              "type": "full_starter_react::systems::game::game::PlayerSpawnedPayload",
+              "kind": "nested"
+            },
+            {
+              "name": "GameResultRecorded",
+              "type": "full_starter_react::systems::game::game::GameResultRecordedPayload",
+              "kind": "nested"
             }
           ]
         }
@@ -1536,9 +1612,7 @@
       "systems": [
         "dojo_init",
         "spawn_player",
-        "train",
-        "mine",
-        "rest",
+        "record_result",
         "upgrade"
       ]
     }
@@ -1547,24 +1621,11 @@
   "models": [
     {
       "members": [],
-      "class_hash": "0x3e7c43dd72bf94383e02e0f02b9a9d760db99bf8568acfba417afd146c9646e",
+      "class_hash": "0xd0b94171c5e07c375cfd5aca6d7534da0a912435344eb76c97c60fe2bf3acd",
       "tag": "full_starter_react-Player",
       "selector": "0x13986cc36a0f8437378d1efa3068103f37b22361ff3cc31be99d50ddf2e4187"
     }
   ],
-  "events": [
-    {
-      "members": [],
-      "class_hash": "0x19a5c06b3a8417ff3f9883be3acb0e33c835795bd81fb87a5a47e6ed7d2d3af",
-      "tag": "full_starter_react-TrophyCreation",
-      "selector": "0x3ee5e843803cc1ec151088d980d09c665c10f9282fea6204ebec09706791977"
-    },
-    {
-      "members": [],
-      "class_hash": "0x1922d2cd8b63eccf66321673234a52126cd9f0ab1bf6298c5abee6ee80c8990",
-      "tag": "full_starter_react-TrophyProgression",
-      "selector": "0x6f15029fdaa4c14b9f4690bad922d22e5646466e5fe4c688e633d67028b68d8"
-    }
-  ],
+  "events": [],
   "external_contracts": []
 }

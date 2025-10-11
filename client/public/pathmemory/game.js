@@ -100,6 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showLevelComplete() {
+        console.log("🏆 Level completed! Level:", currentLevel, "Score:", score, "Lives:", lives);
+        
         menuScreen.style.display = "none";
         howToPlayScreen.classList.remove('active');
         gameScreen.classList.remove('active');
@@ -117,13 +119,15 @@ document.addEventListener('DOMContentLoaded', () => {
         levelCompleteSound.play();
 
         // Send win result to parent (React app)
-        window.parent.postMessage({
+        const winMessage = {
             type: 'PM_RESULT',
             level: currentLevel,
             score: score,
             livesRemaining: lives,
             won: true
-        }, '*');
+        };
+        console.log("🎉 Sending WIN result to parent:", winMessage);
+        window.parent.postMessage(winMessage, '*');
 
         // const applauseSound = document.getElementById('applauseSound');
         setTimeout(() => {
@@ -133,6 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showGameOver() {
+        console.log("💀 Game over! Level:", currentLevel, "Score:", score, "Lives:", lives);
+        
         menuScreen.style.display = "none";
         howToPlayScreen.classList.remove('active');
         gameScreen.classList.remove('active');
@@ -147,13 +153,15 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOverSound.play();
 
         // Send loss result to parent (React app)
-        window.parent.postMessage({
+        const lossMessage = {
             type: 'PM_RESULT',
             level: currentLevel,
             score: score,
             livesRemaining: lives,
             won: false
-        }, '*');
+        };
+        console.log("💀 Sending LOSS result to parent:", lossMessage);
+        window.parent.postMessage(lossMessage, '*');
     }
 
     function returnToMenu() {

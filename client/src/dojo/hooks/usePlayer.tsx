@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useAccount } from "@starknet-react/core";
 import { addAddressPadding } from "starknet";
-import { dojoConfig } from "../dojoConfig";
+// import { dojoConfig } from "../dojoConfig"; // Commented out for Sepolia
 import { Player } from '../../zustand/store';
 import useAppStore from '../../zustand/store';
 
@@ -12,7 +12,8 @@ interface UsePlayerReturn {
   refetch: () => Promise<void>;
 }
 
-// Constants
+// Constants (commented out for Sepolia - no Torii indexer available)
+/*
 const TORII_URL = dojoConfig.toriiUrl + "/graphql";
 const PLAYER_QUERY = `
     query GetPlayer($playerOwner: ContractAddress!) {
@@ -50,12 +51,22 @@ const hexToNumber = (hexValue: string | number): number => {
 
   return 0;
 };
+*/
 
 // Function to fetch player data from GraphQL
 const fetchPlayerData = async (playerOwner: string): Promise<Player | null> => {
   try {
     console.log("🔍 Fetching player with owner:", playerOwner);
 
+    // Temporarily disable GraphQL queries for Sepolia due to CORS issues
+    // TODO: Set up proper Torii indexer for Sepolia
+    console.log("⚠️ GraphQL queries disabled for Sepolia - using mock data");
+    
+    // Return null for now - player will be created when they spawn
+    return null;
+
+    // Original GraphQL code (commented out):
+    /*
     const response = await fetch(TORII_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -93,6 +104,7 @@ const fetchPlayerData = async (playerOwner: string): Promise<Player | null> => {
 
     console.log("✅ Player data after conversion:", playerData);
     return playerData;
+    */
 
   } catch (error) {
     console.error("❌ Error fetching player:", error);

@@ -21,18 +21,6 @@ const getRpcUrl = () => {
   }
 };
 
-const getDefaultChainId = () => {
-  switch (VITE_PUBLIC_DEPLOY_TYPE) {
-    case "localhost":
-        return "0x4b4154414e41"; // KATANA in ASCII
-    case "mainnet":
-        return constants.StarknetChainId.SN_MAIN;
-    case "sepolia":
-        return constants.StarknetChainId.SN_SEPOLIA;
-    default:
-        return constants.StarknetChainId.SN_SEPOLIA;
-  }
-};
 
 const getGameContractAddress = () => {
   return manifest.contracts[0].address;
@@ -50,6 +38,7 @@ const policies = {
         { name: "train", entrypoint: "train" },
         { name: "mine", entrypoint: "mine" },
         { name: "rest", entrypoint: "rest" },
+        { name: "record_result", entrypoint: "record_result" },
       ],
     },
   },
@@ -57,10 +46,10 @@ const policies = {
 
 const options: ControllerOptions = {
   chains: [{ rpcUrl: getRpcUrl() }],
-  defaultChainId: getDefaultChainId(),
+  defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
   policies,
-  namespace: "full_starter_react",
-  slot: "full-starter-react",
+  namespace: "starkpath",
+  slot: "starkpath",
 };
 
 const cartridgeConnector = new ControllerConnector(
