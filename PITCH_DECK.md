@@ -155,34 +155,6 @@ Cairo + Dojo Engine + Starknet
 
 ---
 
-## 🛣️ Roadmap
-
-### **Phase 1: MVP (Current)**
-- ✅ Core memory game mechanics
-- ✅ On-chain player system
-- ✅ Basic achievement system
-- ✅ Sepolia deployment
-
-### **Phase 2: Enhancement (Next 3 months)**
-- 🎯 Multiplayer tournaments
-- 🎨 Custom themes and avatars
-- 📱 Mobile app development
-- 🏆 Advanced achievement system
-
-### **Phase 3: Expansion (6 months)**
-- 🌐 Cross-chain compatibility
-- 🎮 Additional game modes
-- 💰 NFT marketplace integration
-- 🤝 Partnership with gaming platforms
-
-### **Phase 4: Platform (12 months)**
-- 🛠️ Developer SDK release
-- 🏢 B2B licensing program
-- 🌍 Global tournament platform
-- 📈 Analytics and insights dashboard
-
----
-
 ## 👥 Team
 
 ### **Core Team**
@@ -190,26 +162,14 @@ Cairo + Dojo Engine + Starknet
 - **Game Designer**: UX/UI and game mechanics specialist
 - **Blockchain Engineer**: Starknet and Dojo expert
 
-### **Advisors**
-- **Gaming Industry Expert**: 10+ years in game development
-- **Web3 Strategist**: Blockchain gaming consultant
-- **Technical Advisor**: Dojo Engine contributor
-
+ 
 ---
-
-## 💰 Funding & Resources
 
 ### **Current Status**
 - ✅ MVP completed and deployed
 - ✅ Technical architecture proven
 - ✅ User testing completed
-- ✅ Community feedback integrated
-
-### **Funding Requirements**
-- **Development**: $50K for team expansion
-- **Marketing**: $30K for user acquisition
-- **Infrastructure**: $20K for scaling and security
-- **Total**: $100K for 12-month runway
+  
 
 ### **Use of Funds**
 - 60% Development team expansion
@@ -218,7 +178,7 @@ Cairo + Dojo Engine + Starknet
 
 ---
 
-## 📈 Success Metrics
+##  Success Metrics
 
 ### **User Engagement**
 - **Daily Active Users**: Target 1,000+ by month 6
@@ -239,46 +199,8 @@ Cairo + Dojo Engine + Starknet
 - **Developer Adoption**: 50+ games using framework
 
 ---
-
-## 🎯 Call to Action
-
-### **For Players**
-- 🎮 **Try StarkPath**: Experience the future of gaming
-- 🏆 **Compete**: Climb the leaderboards
-- 💬 **Join Community**: Discord and social media
-
-### **For Developers**
-- 🛠️ **Use Our Framework**: Build your own on-chain games
-- 🤝 **Partner With Us**: Integrate StarkPath features
-- 📚 **Learn**: Comprehensive documentation available
-
-### **For Investors**
-- 💰 **Invest**: Join the blockchain gaming revolution
-- 📊 **Track Progress**: Transparent development updates
-- 🌟 **Support Innovation**: Help shape the future of gaming
-
----
-
-## 🔗 Links & Resources
-
-### **Live Demo**
-- 🌐 **Website**: [StarkPath Demo](http://localhost:4175/)
-- 🎮 **Game**: Embedded memory game with wallet integration
-- 📱 **Mobile**: Responsive design for all devices
-
-### **Technical Resources**
-- 📚 **Documentation**: Complete integration guides
-- 🛠️ **GitHub**: Open-source codebase
-- 🎯 **Smart Contracts**: Deployed on Sepolia
-- 📊 **Analytics**: Real-time user metrics
-
-### **Community**
-- 💬 **Discord**: Developer and player community
-- 🐦 **Twitter**: Latest updates and announcements
-- 📺 **YouTube**: Demo videos and tutorials
-- 📝 **Blog**: Technical insights and updates
-
----
+ 
+ 
 
 ## 🏆 Why StarkPath Wins
 
@@ -286,11 +208,7 @@ Cairo + Dojo Engine + Starknet
 - Built on cutting-edge Starknet + Dojo stack
 - Production-ready with comprehensive testing
 - Scalable architecture for future growth
-
-### **User Experience**
-- Gaming-first design with minimal friction
-- Instant feedback and smooth gameplay
-- Mobile-responsive and accessible
+ 
 
 ### **Market Opportunity**
 - Large, growing blockchain gaming market
