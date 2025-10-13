@@ -1,4 +1,4 @@
-# 🎮 StarkPath - Hackathon Pitch Deck
+# 🎮 StarkPath 
 
 ## 🚀 Project Overview
 
