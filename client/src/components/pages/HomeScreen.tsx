@@ -4,8 +4,8 @@ import { useRecordResult } from "../../dojo/hooks/useRecordResult";
 import useAppStore from "../../zustand/store";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import { Wallet, UserPlus, Gamepad2, Loader2, ExternalLink, CheckCircle, XCircle, Clock } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Wallet, UserPlus, Loader2, ExternalLink, CheckCircle, XCircle, Clock } from "lucide-react";
+import { useEffect } from "react";
 
 export default function HomePage() {
   const player = useAppStore((state) => state.player);
@@ -20,11 +20,6 @@ export default function HomePage() {
   } = useStarknetConnect();
   
   const isConnected = status === "connected";
-  const [showGameInline, setShowGameInline] = useState(true);
-
-  const handlePlayGame = () => {
-    setShowGameInline(true);
-  };
 
   // Set up iframe message listener for game results
   useEffect(() => {
@@ -89,15 +84,7 @@ export default function HomePage() {
                 ) : (
                   <UserPlus className="w-4 h-4 mr-2" />
                 )}
-                {isInitializing ? "Creating..." : "Spawn Player"}
-              </Button>
-              <Button
-                onClick={handlePlayGame}
-                disabled={!player}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
-              >
-                <Gamepad2 className="w-4 h-4 mr-2" />
-                Play Game
+                {isInitializing ? "Creating..." : "Create Game"}
               </Button>
             </div>
           </div>
@@ -200,15 +187,13 @@ export default function HomePage() {
             )}
 
             {/* Inline Game */}
-            {showGameInline && (
-              <div className="mt-1 flex justify-center">
-                <iframe
-                  src="/pathmemory/index.html"
-                  title="StarkPath Memory Game"
-                  className="w-full max-w-[820px] h-[750px] rounded-xl shadow-xl"
-                />
-              </div>
-            )}
+            <div className="mt-1 flex justify-center">
+              <iframe
+                src="/pathmemory/index.html"
+                title="StarkPath Memory Game"
+                className="w-full max-w-[820px] h-[750px] rounded-xl shadow-xl"
+              />
+            </div>
 
             {/* Status Messages */}
             {!isConnected && (
