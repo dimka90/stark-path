@@ -115,30 +115,7 @@ export default function HomePage() {
 
             {/* Game Modes removed per request */}
 
-            {/* Player Stats */}
-            {player && (
-              <div className="bg-slate-700/50 rounded-lg p-6 mb-4">
-                <h3 className="text-lg font-semibold text-white mb-4">Your Stats</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-400">{player.games_played || 0}</div>
-                    <div className="text-sm text-slate-300">Games Played</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-400">{player.wins || 0}</div>
-                    <div className="text-sm text-slate-300">Wins</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-red-400">{player.losses || 0}</div>
-                    <div className="text-sm text-slate-300">Losses</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-yellow-400">{player.best_level || 0}</div>
-                    <div className="text-sm text-slate-300">Best Level</div>
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Player Stats removed per request */}
 
             {/* Transaction Verification - Player Spawn */}
             {txHash && (
